@@ -164,8 +164,8 @@ reply_df = pd.DataFrame({"id" : gall_no_list,
                         "reply_content" : reply_content,
                         "reply_date" : reply_date})
 
-contents_df.to_csv("contents.csv",encoding ='utf8',index = False)
-reply_df.to_csv("reply.csv",encoding = 'utf8',index = False)
+contents_df.to_csv("D:\pythonCode01\crawlingFile\contents.csv",encoding ='utf8',index = False)
+reply_df.to_csv("D:\pythonCode01\crawlingFile\reply.csv",encoding = 'utf8',index = False)
 
 driver.quit()
 print("수집이 완료되었습니다.")
