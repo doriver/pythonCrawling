@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup as bs
 
 # 1. 크롤링할 웹페이지 URL 설정
-url = "https://news.naver.com/"
+url = "https://www.dcinside.com/"
 
 # 2. HTTP GET 요청
 response = requests.get(url)
@@ -17,7 +17,6 @@ if response.status_code == 200:
 
     print("네이버 뉴스 헤드라인:")
     print(headlines)
-    for idx, headline in enumerate(headlines, start=1):
-        print(f"{idx}. {headline.get_text(strip=True)}")  # 텍스트만 출력
+    
 else:
     print(f"HTTP 요청 실패: {response.status_code}")
