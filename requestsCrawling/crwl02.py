@@ -13,10 +13,10 @@ if response.status_code == 200:
     soup = bs(response.text, 'html.parser')
 
     # 5. 원하는 데이터 추출 (여기서는 헤드라인 뉴스 제목)
-    headlines = soup.select(".hdline_article_tit a")  # CSS 선택자로 추출
+    gnb_bar_in_top = soup.select("#top .gnb_bar")  # CSS 선택자로 추출
 
-    print("네이버 뉴스 헤드라인:")
-    print(headlines)
+    print("디시:")
+    print(gnb_bar_in_top)
     
 else:
     print(f"HTTP 요청 실패: {response.status_code}")
