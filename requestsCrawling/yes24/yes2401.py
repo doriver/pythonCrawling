@@ -1,6 +1,4 @@
 import requests
-import pandas as pd
-from tqdm import tqdm
 from bs4 import BeautifulSoup
 
 base_url = 'https://www.yes24.com'
