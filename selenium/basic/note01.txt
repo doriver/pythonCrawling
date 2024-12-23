@@ -1,0 +1,27 @@
+from selenium import webdriver 에서
+
+driver = webdriver.Chrome()
+driver.find_element( ~ )  ,  driver.find_elements( ~ )
+
+find_element()  
+find_elements() 지정된 조건과 일치하는 모든 요소를 리스트로 반환
+
+find_element(By.ID, "id")
+find_element(By.NAME, "name")
+find_element(By.XPATH, "xpath")
+find_element(By.LINK_TEXT, "link text")
+find_element(By.PARTIAL_LINK_TEXT, "partial link text")
+find_element(By.TAG_NAME, "tag name")
+find_element(By.CLASS_NAME, "class name")
+find_element(By.CSS_SELECTOR, "css selector")
+
+
+//
+
+XPath
+: XML Path Language의 약자로, HTML/XML 문서에서 요소를 탐색하거나 선택하기 위해 사용
+
+//
+
+DOM 요소 제어
+Selenium을 사용하면 HTML 요소를 찾고 클릭, 입력, 선택, 스크롤 등과 같은 동작을 수행할 수 있습니다.

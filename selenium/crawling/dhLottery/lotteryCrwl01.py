@@ -5,7 +5,7 @@ driver = webdriver.Chrome()
 driver.get('https://dhlottery.co.kr/common.do?method=main')
 
 num_view = driver.find_element(By.ID, 'numView')
-num_comp = num_view.find_elements(By.XPATH, "*")
+num_comp = num_view.find_elements(By.XPATH, "*") # 이거로 js 뽑는건가? > 아닌듯
 
 numbers = [c.text for c in num_comp[1:7]] 
 bonus = num_comp[-1].text # 보너스 숫자도 빼먹으면 안됨
