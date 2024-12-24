@@ -50,4 +50,4 @@ for i in range(10): # 페이지당 글 20개
 
 df = pd.DataFrame(lines)
 
-df.to_csv(r"D:\pythonCrawling\crawlingFile\okkySample01.csv",encoding ='utf8',index = False)
+df.to_csv(r"D:\pythonCode01\crawlingFile\okkySample01.csv",encoding ='utf8',index = False)
