@@ -1,3 +1,9 @@
+#x , print(x) > 예러 터짐 NameError: name 'x' is not defined
+y=None
+z=""
+print(y)
+print(z)
+
 if 4 in [1,2,3,4]: print("if문 작동 4가 있따")
 
 languages = ['python', 'perl', 'c', 'java']
