@@ -11,11 +11,12 @@ driver = webdriver.Chrome()
 # driver.implicitly_wait(10) # 쓰기 좀 조심스러움
 lines = [] # 여기에 데이터들 넣을꺼
         
-driver.get("https://okky.kr/articles/1523636?topic=life&page=1")
+driver.get("https://okky.kr/articles/1517573?topic=life&page=100")
 time.sleep(2 + random.random())
 
-for i in range(5):
+for i in range(100):
     try: # post 크롤링하는거 와야함
+        print(f"    =====    =====  count : {i}   ======   ======")
         sel01 = driver.find_elements(By.CSS_SELECTOR, "div.w-full.min-w-0.flex-auto > div.min-w-0.flex-auto > div")
         sel02 = sel01[1]
         # sel01: <div> 3개   ,  sel02: <div> 1개 ( 안에 div 6개 들어있음 ) 
@@ -68,7 +69,7 @@ for i in range(5):
                 com03 = com02[1].find_elements(By.XPATH, "./div")
                 comTime = com03[len(com03)-1].find_element(By.XPATH, "./a").text.strip()
                 # 댓글 내용
-                commentContent = comment.find_element(By.CSS_SELECTOR, "div.flex div.ProseMirror.remirror-editor.remirror-a11y-dark").text.strip()
+                commentContent = comment.find_element(By.CSS_SELECTOR, "div.my-2.flex div.tiptap.ProseMirror").text.strip()
                 
                 postReplyLists.append(
                     {"user": commentWriter, "content": commentContent, "createAt": comTime }
@@ -77,8 +78,8 @@ for i in range(5):
                 continue
 
         lines.append({
-            "category": "okky", "tag": "lifeStory", "user": writer, "title": title,
-            "content": content, "imgSrc": imgUrl, "createAt": day, "viewCount": view, "likeCount": likes
+            "category": "okky", "user": writer, "title": title,
+            "content": content, "imgSrc": imgUrl, "viewCount": view, "likeCount": likes, "createAt": day
             , "postReplyLists": postReplyLists
         })
 
@@ -86,13 +87,75 @@ for i in range(5):
         selected = postListSel.find_element(By.CSS_SELECTOR, "div > div > div > ul > li.bg-gray-100")
         nextPostIndex = postList.index(selected) + 1
         print(f"nextPostIndex : {nextPostIndex}")
-        if nextPostIndex > 19: break
-        
-        nextPostLink = postList[nextPostIndex].find_element(By.CSS_SELECTOR, "div > a.font-normal").get_attribute("href")
-        driver.get(nextPostLink) # 다음post로 이동완료
-        time.sleep(1 + random.random())
+       
+        if nextPostIndex > 19: # 끝 글일떄 다음페이지로 이동해야함
+            print("다음페이지로 이동 로직 실행")
+            pageNumberSection = postListSel.find_element(By.CSS_SELECTOR, "div.my-4.flex.justify-center.border-t")
+            pageButtons = pageNumberSection.find_elements(By.CSS_SELECTOR, "nav > button")
+            currentButton = pageNumberSection.find_element(By.CSS_SELECTOR, "nav > button.border-blue-500")
+            nextPageButtonIndex = pageButtons.index(currentButton) + 1
+            nextPageButton = pageButtons[nextPageButtonIndex]
+            nextPageButton.click()
+            time.sleep(random.random())
+
+            sel01 = driver.find_elements(By.CSS_SELECTOR, "div.w-full.min-w-0.flex-auto > div.min-w-0.flex-auto > div")
+            sel02 = sel01[1]
+            # sel01: <div> 3개   ,  sel02: <div> 1개 ( 안에 div 6개 들어있음 ) 
+            # 저 6개 div를 선택해야해
+            sel03 = sel02.find_elements(By.XPATH, './div')
+            print(f"6개 나와야함 : {len(sel03)}")
+
+            postListSel = sel03[5]
+            postList = postListSel.find_elements(By.CSS_SELECTOR, "div > div > div > ul > li")
+            nextPostLink = ""
+            try:
+                nextPostLink = postList[0].find_element(By.CSS_SELECTOR, "div > a.font-normal").get_attribute("href")
+            except:
+                nextPostLink = postList[1].find_element(By.CSS_SELECTOR, "div > a.font-normal").get_attribute("href")
+            driver.get(nextPostLink)
+            time.sleep(1 + random.random())
+        else:
+            nextPostLink = postList[nextPostIndex].find_element(By.CSS_SELECTOR, "div > a.font-normal").get_attribute("href")
+            driver.get(nextPostLink) # 다음post로 이동완료
+            time.sleep(1 + random.random())
 
     except:
+        print("에러나서 다음글로 이동")
+        postList = postListSel.find_elements(By.CSS_SELECTOR, "div > div > div > ul > li")
+        selected = postListSel.find_element(By.CSS_SELECTOR, "div > div > div > ul > li.bg-gray-100")
+        nextPostIndex = postList.index(selected) + 1
+        print(f"nextPostIndex : {nextPostIndex}")
+       
+        if nextPostIndex > 19: # 끝 글일떄 다음페이지로 이동해야함
+            print("다음페이지로 이동 로직 실행")
+            pageNumberSection = postListSel.find_element(By.CSS_SELECTOR, "div.my-4.flex.justify-center.border-t")
+            pageButtons = pageNumberSection.find_elements(By.CSS_SELECTOR, "nav > button")
+            currentButton = pageNumberSection.find_element(By.CSS_SELECTOR, "nav > button.border-blue-500")
+            nextPageButtonIndex = pageButtons.index(currentButton) + 1
+            nextPageButton = pageButtons[nextPageButtonIndex]
+            nextPageButton.click()
+            time.sleep(random.random())
+
+            sel01 = driver.find_elements(By.CSS_SELECTOR, "div.w-full.min-w-0.flex-auto > div.min-w-0.flex-auto > div")
+            sel02 = sel01[1]
+            # sel01: <div> 3개   ,  sel02: <div> 1개 ( 안에 div 6개 들어있음 ) 
+            # 저 6개 div를 선택해야해
+            sel03 = sel02.find_elements(By.XPATH, './div')
+            print(f"6개 나와야함 : {len(sel03)}")
+
+            postListSel = sel03[5]
+            postList = postListSel.find_elements(By.CSS_SELECTOR, "div > div > div > ul > li")
+            nextPostLink = ""
+            try:
+                nextPostLink = postList[0].find_element(By.CSS_SELECTOR, "div > a.font-normal").get_attribute("href")
+            except:
+                nextPostLink = postList[1].find_element(By.CSS_SELECTOR, "div > a.font-normal").get_attribute("href")
+            driver.get(nextPostLink)
+            time.sleep(1 + random.random())
+        else:
+            nextPostLink = postList[nextPostIndex].find_element(By.CSS_SELECTOR, "div > a.font-normal").get_attribute("href")
+            driver.get(nextPostLink) # 다음post로 이동완료
+            time.sleep(1 + random.random())
         continue
 
 

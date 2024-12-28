@@ -7,7 +7,7 @@ data = {
 }
 df = pd.DataFrame(data)
 # print(df) # 재밌게 출력됨
-# print(df.info()) # Column(열)마다 Dtype 등이 출력됨
+print(df.info()) # Column(열)마다 Dtype 등이 출력됨
 # print(df['Name']) # Name컬럼 출력됨
 
 df02 = pd.DataFrame([
