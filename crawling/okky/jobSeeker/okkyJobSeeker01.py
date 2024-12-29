@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 import pandas as pd
 import random
 import time
+import json
 
 driver = webdriver.Chrome()
 # driver.implicitly_wait(10) # 쓰기 좀 조심스러움
@@ -80,7 +81,7 @@ for i in range(10):
         lines.append({
             "category": "okky", "user": writer, "title": title,
             "content": content, "imgSrc": imgUrl, "viewCount": view, "likeCount": likes, "createAt": day
-            , "postReplyLists": postReplyLists
+            , "postReplyLists": json.dumps(postReplyLists)
         })
 
         postList = postListSel.find_elements(By.CSS_SELECTOR, "div > div > div > ul > li")
@@ -161,4 +162,4 @@ for i in range(10):
 
 # csv파일로 저장
 df = pd.DataFrame(lines)
-df.to_csv(r"D:\pythonCrawling\data\crawlingFile\okky\okkyJobSeeker01.csv",encoding ='utf8',index = False)
+df.to_csv(r"D:\pythonCrawling\data\crawlingFile\okky\okkyJobSeeker03.csv",encoding ='utf8',index = False)
