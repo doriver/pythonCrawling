@@ -1,5 +1,4 @@
-# okky - 커뮤니티 - 사는얘기
-# 마지막 페이지쪽 글detail 부분 크롤링
+# okky - 커뮤니티 - 사는얘기 ,   마지막 페이지
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -71,21 +70,22 @@ for i in range(15):
             # 댓글 작성자 이름, 작성 시간
             replyNameCreate = replyWriterSection.find_elements(By.XPATH, './div')[1]
             # 작성자 이름
-            replyWriter = replyNameCreate.find_element(By.CSS_SELECTOR, 'a').text
+            replyWriter = replyNameCreate.find_element(By.XPATH, './*[1]').text # a태그, div태그 상황에 따라 나옴
             # 작성 시간
             # replyCreate = replyNameCreate.find_element(By.XPATH, './div/a').text
+            print(replyWriter)
 
             ### 댓글 본문 부분
             replyContentSection = reply.find_elements(By.XPATH, './div')[1]
-            text = replyContentSection.find_element(By.CSS_SELECTOR, 'div.tiptap.ProseMirror').text
-
+            replyText = replyContentSection.find_element(By.CSS_SELECTOR, 'div.tiptap.ProseMirror').text
+            # print(replyText[0:500])
             postReplyLists.append(
-                {"replyWriter": replyWriter, "replyText ":text} # "replyCreate": replyCreate, 앞쪽할떄 필요
+                {"replyWriter": replyWriter, "replyText": replyText[0:500]} # "replyCreate": replyCreate, 앞쪽할떄 필요
             )
 
         lines.append({
                     "desc": 1,"writer": writer, "title": title, # "createdAt": 이건 앞쪽 페이지 할떄 필요 
-                    "content": content, "imgSrc": img, "viewCount": viewCount, "likeCount": likeCount,
+                    "content": content[0:500], "imgSrc": img, "viewCount": viewCount, "likeCount": likeCount,
                     "postReplyLists": json.dumps(postReplyLists)
                 })
 
