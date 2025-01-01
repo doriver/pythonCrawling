@@ -19,12 +19,12 @@ import dataPreProcessing.method.dataMethod01 as dm
 
 driver = webdriver.Chrome()
 lines = [] # 여기에 데이터들 넣을꺼
-currentUrl = "https://okky.kr/articles/1523854?topic=life&page=1"
+currentUrl = "https://okky.kr/articles/1523707?topic=life&page=3"
 
 driver.get(currentUrl)
 time.sleep(2 + random.random())
 
-for i in range(5):
+for i in range(200):
     print(f"    =====    =====  count : {i}   ======   ======")
     try:
         ######## 글 뷰 ########
@@ -81,8 +81,11 @@ for i in range(5):
 
             ### 댓글 본문 부분
             replyContentSection = reply.find_elements(By.XPATH, './div')[1]
-            _replyText = replyContentSection.find_element(By.CSS_SELECTOR, 'div.tiptap.ProseMirror').text
-            replyText = dm.textLengthLimit(_replyText)
+            try:
+                _replyText = replyContentSection.find_element(By.CSS_SELECTOR, 'div.tiptap.ProseMirror').text
+                replyText = dm.textLengthLimit(_replyText)
+            except:
+                replyText = replyContentSection.find_element(By.XPATH, './div').text
 
             postReplyLists.append(
                 {"replyWriter": replyWriter, "replyText": replyText}
@@ -107,22 +110,79 @@ for i in range(5):
             print(f"nextPostIndex : {nextPostIndex}")
             
             if nextPostIndex > 19:
-                print("해당페이지 맨 마지막 글, 페이지 이동 필요")
-                # 다음페이지로 가는 로직, 일단 break로
-                break
+                print("해당페이지 맨 마지막 글, 다음페이지로 이동 로직 실행")
+                ### 페이지 버튼 부분
+                pageButtonSection = driver.find_element(By.XPATH, '//*[@id="__next"]/main/div/div[2]/div/div[2]/div[6]/div/div[2]/nav')
+                pageButtons = pageButtonSection.find_elements(By.XPATH, './button')
+                currentButton = pageButtonSection.find_element(By.CSS_SELECTOR, "nav > button.border-blue-500")
+                nextPageButtonIndex = pageButtons.index(currentButton) + 1
+                nextPageButton = pageButtons[nextPageButtonIndex]
+                nextPageButton.click() # 다음페이지로 이동
+                time.sleep(random.random())
 
-            nextPostLink = postList[nextPostIndex].find_element(By.CSS_SELECTOR, "div > a.font-normal").get_attribute("href")
+                ######## 글목록, 페이지 뷰 ########
+                listPageView = driver.find_element(By.XPATH, '//*[@id="__next"]/main/div/div[2]/div/div[2]/div[6]')
+
+                postListView = listPageView.find_element(By.XPATH, './div/div[1]/ul')
+                postList = postListView.find_elements(By.XPATH, './li')
+                try: 
+                    nextPostLink = postList[0].find_element(By.CSS_SELECTOR, "div > a.font-normal").get_attribute("href")
+                except: 
+                    nextPostLink = postList[1].find_element(By.CSS_SELECTOR, "div > a.font-normal").get_attribute("href")
+            else:
+                nextPostLink = postList[nextPostIndex].find_element(By.CSS_SELECTOR, "div > a.font-normal").get_attribute("href")
+            
             driver.get(nextPostLink) # 다음post로 이동완료
             currentUrl = nextPostLink
             time.sleep(1 + random.random())
-
         except:
             print(" !!!  다음글로 이동 실패 !!! ")
             break
 
     except:
-        continue
+        # 다음글로 이동
+        try:
+            ######## 글목록, 페이지 뷰 ########
+            listPageView = driver.find_element(By.XPATH, '//*[@id="__next"]/main/div/div[2]/div/div[2]/div[6]')
+
+            postListView = listPageView.find_element(By.XPATH, './div/div[1]/ul')
+            postList = postListView.find_elements(By.XPATH, './li')
+
+            selected = postListView.find_element(By.CSS_SELECTOR, "ul > li.bg-gray-100")
+            nextPostIndex = postList.index(selected) + 1
+            print(f"nextPostIndex : {nextPostIndex}")
+            
+            if nextPostIndex > 19:
+                print("해당페이지 맨 마지막 글, 다음페이지로 이동 로직 실행")
+                ### 페이지 버튼 부분
+                pageButtonSection = driver.find_element(By.XPATH, '//*[@id="__next"]/main/div/div[2]/div/div[2]/div[6]/div/div[2]/nav')
+                pageButtons = pageButtonSection.find_elements(By.XPATH, './button')
+                currentButton = pageButtonSection.find_element(By.CSS_SELECTOR, "nav > button.border-blue-500")
+                nextPageButtonIndex = pageButtons.index(currentButton) + 1
+                nextPageButton = pageButtons[nextPageButtonIndex]
+                nextPageButton.click() # 다음페이지로 이동
+                time.sleep(random.random())
+
+                ######## 글목록, 페이지 뷰 ########
+                listPageView = driver.find_element(By.XPATH, '//*[@id="__next"]/main/div/div[2]/div/div[2]/div[6]')
+
+                postListView = listPageView.find_element(By.XPATH, './div/div[1]/ul')
+                postList = postListView.find_elements(By.XPATH, './li')
+                try: 
+                    nextPostLink = postList[0].find_element(By.CSS_SELECTOR, "div > a.font-normal").get_attribute("href")
+                except: 
+                    nextPostLink = postList[1].find_element(By.CSS_SELECTOR, "div > a.font-normal").get_attribute("href")
+            else:
+                nextPostLink = postList[nextPostIndex].find_element(By.CSS_SELECTOR, "div > a.font-normal").get_attribute("href")
+            
+            driver.get(nextPostLink) # 다음post로 이동완료
+            currentUrl = nextPostLink
+            time.sleep(1 + random.random())
+        except:
+            print(" !!!  다음글로 이동 실패 !!! ")
+            break
+
 
 # csv파일로 저장
 df = pd.DataFrame(lines)
-df.to_csv(r"D:\pythonCrawling\data\crawlingFile\realData\okky\okkyLifeStoryFirstPage.csv",encoding ='utf8',index = False)
+df.to_csv(r"D:\pythonCrawling\data\crawlingFile\realData\okky\okkyLifeStoryFirstPage200.csv",encoding ='utf8',index = False)
