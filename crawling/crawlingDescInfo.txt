@@ -1,2 +1,2 @@
 1 : okkyLifeStoryLastPage > 여기에 크롤링한 페이지 정보 들어있음
-2 : okkyLifeStoryFirstPage
+2 : okkyLifeStoryFirstPage, okkyLifeStoryFirstPageUpgrade

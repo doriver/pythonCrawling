@@ -11,15 +11,16 @@ from bs4 import BeautifulSoup
 import sys
 import os
 # 프로젝트 루트 경로를 sys.path에 추가
-sys.path.append(os.path.abspath("D:\pythonCrawling"))
-# sys.path.append(os.path.abspath("D:\pythonCode01"))
+# sys.path.append(os.path.abspath("D:\pythonCrawling"))
+sys.path.append(os.path.abspath("D:\pythonCode01"))
 
 # 파이썬에서 다른 .py 파일에 정의된 메서드나 사용하려면 import를 활용
 import dataPreProcessing.method.dataMethod01 as dm
 
 driver = webdriver.Chrome()
 
-urlCsv = pd.read_csv(r"D:\pythonCrawling\crawling\okky\lifeStory\real\okkyLifeStoryPostUrl.csv")
+urlCsv = pd.read_csv(r"D:\pythonCode01\crawling\okky\lifeStory\real\okkyLifeStoryPostUrl5002.csv")
+# urlCsv = pd.read_csv(r"D:\pythonCode01\crawling\okky\lifeStory\real\okkyLifeStoryPostUrl.csv")
 lines = [] # 여기에 데이터들 넣을꺼 
 
 for i in range(len(urlCsv['postUrls'])):
@@ -105,4 +106,4 @@ for i in range(len(urlCsv['postUrls'])):
 
 # csv파일로 저장
 df = pd.DataFrame(lines)
-df.to_csv(r"D:\pythonCrawling\data\crawlingFile\realData\okky\okkyLifeStoryFirstPageUp.csv",encoding ='utf8',index = False)
+df.to_csv(r"D:\pythonCode01\data\crawlingFile\realData\okky\okkyLifeStoryFirstPageUp487(700).csv",encoding ='utf8',index = False)
