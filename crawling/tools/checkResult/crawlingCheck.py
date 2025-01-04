@@ -1,8 +1,8 @@
 import pandas as pd
 import json
 
-csvRead = pd.read_csv(r"D:\pythonCode01\data\crawlingFile\realData\okky\okkyLifeStoryFirstPageUp5002.csv")
-# csvRead = pd.read_csv(r"D:\pythonCrawling\data\crawlingFile\realData\okky\okkyLifeStoryFirstPage200.csv")
+# csvRead = pd.read_csv(r"D:\pythonCode01\data\crawlingFile\realData\okky\okkyLifeStoryFirstPageUp5002.csv")
+csvRead = pd.read_csv(r"D:\pythonCrawling\data\crawlingFile\yes24NewProduct.csv")
 # 컬럼의 개수 len(df.columns)
 print(len(csvRead.columns)) # 10
 # 행의 개수 len(df) 
