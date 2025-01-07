@@ -25,7 +25,7 @@ def textLengthLimit(text : str) -> str:
 
 driver = webdriver.Chrome()
 
-urlCsv = pd.read_csv(r"D:\pythonCode01\crawling\okky\lifeStory\real\okkyLifeStoryPostUrl500_4.csv")
+urlCsv = pd.read_csv(r"D:\pythonCode01\crawling\okky\lifeStory\real\okkyLifeStoryPostUrl500_6.csv")
 # urlCsv = pd.read_csv(r"D:\pythonCode01\crawling\okky\lifeStory\real\okkyLifeStoryPostUrl.csv")
 linesEs = []
 
@@ -111,7 +111,7 @@ for i in range(len(urlCsv['postUrls'])): # len(urlCsv['postUrls'])
 
 # csv파일로 저장
 dfEs = pd.DataFrame(linesEs)
-dfEs.to_csv(r"D:\pythonCode01\data\crawlingFile\realData\okky\okkyLifeStoryFirstPageUp500Es4.csv",encoding ='utf8',index = False)
+dfEs.to_csv(r"D:\pythonCode01\data\crawlingFile\realData\okky\okkyLifeStoryFirstPageUp500Es6.csv",encoding ='utf8',index = False)
 
 
 

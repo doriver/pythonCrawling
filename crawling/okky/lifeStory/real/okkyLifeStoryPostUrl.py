@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 driver = webdriver.Chrome()
 postUrls=[]
 
-startUrl = "https://okky.kr/articles/1517020?topic=life&page=115"
+startUrl = "https://okky.kr/articles/1513810?topic=life&page=166"
 
 driver.get(startUrl)
 postUrls.append(startUrl)
@@ -66,4 +66,4 @@ line = {'postUrls': postUrls} # 여기에 데이터들 넣을꺼
 # csv파일로 저장
 df = pd.DataFrame(line)
 # df.to_csv(r"D:\pythonCrawling\crawling\okky\lifeStory\real\okkyLifeStoryPostUrl.csv",encoding ='utf8',index = False)
-df.to_csv(r"D:\pythonCode01\crawling\okky\lifeStory\real\okkyLifeStoryPostUrl500_3.csv",encoding ='utf8',index = False)
+df.to_csv(r"D:\pythonCode01\crawling\okky\lifeStory\real\okkyLifeStoryPostUrl500_6.csv",encoding ='utf8',index = False)
